@@ -58,7 +58,13 @@ module.exports = {
   */
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
-    baseURL: baseUrl
+    baseURL: baseUrl,
+    requestInterceptor (config, { store }) {
+      if (store.state.csrfToken) {
+        config.headers.common['x-csrf-token'] = store.state.csrfToken;
+      }
+      return config;
+    }
   },
 
   /*
